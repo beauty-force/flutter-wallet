@@ -13,7 +13,7 @@ void showCustomSnackBar(BuildContext context, String message) {
   ).show(context);
 }
 
-String formatCurrency(num number, {String symbol = "Rp "}) {
+String formatCurrency(num number, {String symbol = "\$ "}) {
   return NumberFormat.currency(
     locale: 'id',
     symbol: symbol,

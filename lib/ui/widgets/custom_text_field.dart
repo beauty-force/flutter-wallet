@@ -38,8 +38,10 @@ class CustomTextField extends StatelessWidget {
           keyboardType: keyboardType,
           decoration: InputDecoration(
             hintText: hintText,
+            filled: true,
+            fillColor: const Color.fromARGB(255, 240, 240, 240),
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(14),
+              borderRadius: BorderRadius.circular(8),
             ),
             contentPadding: const EdgeInsets.all(12),
           ),

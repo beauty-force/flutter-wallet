@@ -3,6 +3,8 @@ import 'package:flutter_ewallet/ui/widgets/custom_button.dart';
 import 'package:flutter_ewallet/ui/widgets/custom_text_field.dart';
 import 'package:flutter_ewallet/utils/theme.dart';
 
+import '../../widgets/custom_country_picker.dart';
+
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
 
@@ -13,6 +15,12 @@ class SignInPage extends StatefulWidget {
 class _SignInPageState extends State<SignInPage> {
   final emailController = TextEditingController(text: '');
   final passwordController = TextEditingController(text: '');
+  var _dialCode = '';
+
+  //callback function of country picker
+  void _callBackFunction(String name, String dialCode, String flag) {
+    _dialCode = dialCode;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,8 +31,8 @@ class _SignInPageState extends State<SignInPage> {
         ),
         children: [
           Container(
-            width: 155,
-            height: 50,
+            width: 400,
+            height: 100,
             margin: const EdgeInsets.only(top: 100, bottom: 100),
             decoration: const BoxDecoration(
               image: DecorationImage(
@@ -53,13 +61,20 @@ class _SignInPageState extends State<SignInPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                //Email Input
-                CustomTextField(title: 'Email address'),
+                // //Email Input
+                // CustomTextField(title: 'Email address'),
+                CountryPicker(
+                  title: 'Enter phone number',
+                  callBackFunction: _callBackFunction,
+                  headerText: 'Select Country',
+                  headerBackgroundColor: Theme.of(context).primaryColor,
+                  headerTextColor: Colors.white,
+                ),
                 const SizedBox(
                   height: 12,
                 ),
                 //Password Input
-                CustomTextField(
+                const CustomTextField(
                   title: 'Password',
                   obscureText: true,
                 ),

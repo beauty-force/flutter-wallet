@@ -24,13 +24,14 @@ class CustomHomeServices extends StatelessWidget {
             width: 70,
             height: 70,
             decoration: BoxDecoration(
-              color: whiteColor,
-              borderRadius: BorderRadius.circular(20),
+              color: greyColor,
+              borderRadius: BorderRadius.circular(70),
             ),
             child: Center(
               child: Image.asset(
                 iconUrl,
                 width: 26,
+                color: whiteColor,
               ),
             ),
           ),
@@ -39,7 +40,7 @@ class CustomHomeServices extends StatelessWidget {
           ),
           Text(
             title,
-            style: blackTextStyle.copyWith(
+            style: whiteTextStyle.copyWith(
               fontWeight: medium,
             ),
           ),

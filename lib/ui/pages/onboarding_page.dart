@@ -22,7 +22,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
   ];
 
   List<String> subTitle = [
-    'Our system is helping you to\nachieve a better goal',
+    'Flexxa is helping you to\nachieve a better goal',
     'We provide tips for you so that\nyou can adapt easier',
     'We will guide you to where you wanted it too',
   ];
@@ -38,7 +38,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
             ),
             CarouselSlider(
               items: [
-                Image.asset('assets/img_onboarding1.png', height: 331),
+                Image.asset('assets/flexxa logotype-06.png', height: 331),
                 Image.asset('assets/img_onboarding2.png', height: 331),
                 Image.asset('assets/img_onboarding3.png', height: 331),
               ],
@@ -101,7 +101,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                               height: 20,
                             ),
                             CustomTextButton(
-                              title: 'SIgn In',
+                              title: 'Sign In',
                               onPressed: () {
                                 Navigator.pushNamedAndRemoveUntil(
                                     context, '/sign-in', (route) => false);

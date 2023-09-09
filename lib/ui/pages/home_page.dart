@@ -5,9 +5,30 @@ import 'package:flutter_ewallet/ui/widgets/custom_latest_transaction_item.dart';
 import 'package:flutter_ewallet/ui/widgets/custom_user.dart';
 import 'package:flutter_ewallet/utils/shared.dart';
 import 'package:flutter_ewallet/utils/theme.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-class HomePage extends StatelessWidget {
+import '../../Animation/fade.dart';
+import '../../models/card.dart';
+import '../widgets/custom_button.dart';
+
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
+  final PageController _controllerPage = PageController();
+  AnimationController? _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 300));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,23 +46,136 @@ class HomePage extends StatelessWidget {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       body: SingleChildScrollView(
         child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                buildProfileSection(context),
-                buildCardBank(),
-                buildProgressLevel(),
-                buildServices(context),
-                buildLatestTransaction(),
-                buildSendAgain(),
-                buildFriendlyTips()
-              ],
-            ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                color: Colors.black,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: Column(
+                    children: [
+                      buildProfileSection(context),
+                      // buildBankCards(context),
+                      buildCardBank(),
+                      // buildProgressLevel(),
+                      buildServices(context),
+                    ],
+                  ),
+                ),
+              ),
+              Container(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: Column(
+                    children: [
+                      buildLatestTransaction(),
+                    ],
+                  ),
+                ),
+              ),
+              // buildSendAgain(),
+              // buildFriendlyTips()
+            ],
           ),
         ),
       ),
+    );
+  }
+
+  Widget buildBankCards(BuildContext context) {
+    var we = MediaQuery.of(context).size.width;
+    var he = MediaQuery.of(context).size.height;
+    return Column(
+      children: [
+        SizedBox(
+          width: we,
+          height: he * 0.3,
+          child: AnimatedBuilder(
+            animation: _controller!,
+            builder: (context, child) {
+              return PageView.builder(
+                controller: _controllerPage,
+                itemCount: cards.length,
+                clipBehavior: Clip.none,
+                physics: const BouncingScrollPhysics(),
+                itemBuilder: (context, i) {
+                  return Container(
+                    margin: const EdgeInsets.all(20),
+                    width: 300,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      gradient: LinearGradient(colors: cards[i].color),
+                    ),
+                    child: Column(children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              height: he * 0.1,
+                            ),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    cards[i].title,
+                                    style: GoogleFonts.lato(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        letterSpacing: 1),
+                                  ),
+                                  SizedBox(
+                                    height: he * 0.01,
+                                  ),
+                                  Text(
+                                    cards[i].plan,
+                                    style: GoogleFonts.lato(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        letterSpacing: 1),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Image.asset(
+                              cards[i].logo,
+                              color: Colors.white,
+                              width: 70,
+                              height: 70,
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: he * 0.08,
+                      ),
+                      Text(
+                        cards[i].number,
+                        style: GoogleFonts.abel(
+                            color: Colors.white,
+                            fontSize: 22,
+                            letterSpacing: 1),
+                      )
+                    ]),
+                  );
+                },
+              );
+            },
+          ),
+        ),
+        SmoothPageIndicator(
+          controller: _controllerPage,
+          count: cards.length,
+          effect: const WormEffect(
+            activeDotColor: Colors.white,
+            dotHeight: 8,
+            dotWidth: 8,
+          ),
+        ),
+      ],
     );
   }
 
@@ -144,12 +278,21 @@ class HomePage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Latest Transaction',
+            'Recent Transaction',
             style: blackTextStyle.copyWith(
               fontSize: 16,
               fontWeight: semiBold,
             ),
           ),
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //   children: [
+          //     CustomTextButton(
+          //       title: 'See All',
+          //       onPressed: () {},
+          //     ),
+          //   ],
+          // ),
           Container(
             margin: const EdgeInsets.only(top: 14),
             padding: const EdgeInsets.all(22),
@@ -203,13 +346,13 @@ class HomePage extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'Do Something',
-            style: blackTextStyle.copyWith(
-              fontSize: 18,
-              fontWeight: semiBold,
-            ),
-          ),
+          // Text(
+          //   'Do Something',
+          //   style: blackTextStyle.copyWith(
+          //     fontSize: 18,
+          //     fontWeight: semiBold,
+          //   ),
+          // ),
           const SizedBox(
             height: 14,
           ),
@@ -245,6 +388,9 @@ class HomePage extends StatelessWidget {
                 },
               ),
             ],
+          ),
+          const SizedBox(
+            height: 14,
           ),
         ],
       ),
@@ -365,8 +511,8 @@ class HomePage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Howdy',
-                style: greyTextStyle.copyWith(
+                'Good afternoon',
+                style: whiteTextStyle.copyWith(
                   fontSize: 16,
                 ),
               ),
@@ -374,9 +520,9 @@ class HomePage extends StatelessWidget {
                 height: 2,
               ),
               Text(
-                'shaynahan',
+                'Afshin T2Y',
                 style:
-                    blackTextStyle.copyWith(fontSize: 20, fontWeight: semiBold),
+                    whiteTextStyle.copyWith(fontSize: 18, fontWeight: semiBold),
               ),
             ],
           ),
